@@ -1,4 +1,5 @@
-__data__ = "20230208"
+# -*- coding: utf-8 -*-
+__data__ = "2023.2.8"
 __author__ = "玉堃"
 __description__ = "遥感图像处理公共函数汇总"
 __function__ = ["注释: class:def[类别:函数]",
@@ -32,9 +33,11 @@ class RemoteImgProcess:
         width = dataset.RasterXSize
         height = dataset.RasterYSize
         if point_pixel:
-            img = dataset.ReadAsArray(point_pixel[0], point_pixel[1], point_pixel[2], point_pixel[3]).transpose(1, 2, 0)
+            img = dataset.ReadAsArray(point_pixel[0], point_pixel[1], point_pixel[2], point_pixel[3])
         else:
-            img = dataset.ReadAsArray(0, 0, width, height).transpose(1, 2, 0)
+            img = dataset.ReadAsArray(0, 0, width, height)
+        if len(img.shape) == 3:
+            img = img.transpose(1, 2, 0)
         im_geotrans = dataset.GetGeoTransform()  # 仿射矩阵
         im_proj = dataset.GetProjection()  # 地图投影信息
         del dataset

@@ -1,6 +1,9 @@
-__data__ = "20230208"
+# -*- coding: utf-8 -*-
+__data__ = "2023.2.8"
 __author__ = "玉堃"
 __description__ = "实现图像16位转8位"
+__function__ = ["注释: class:def[类别:函数]",
+                "-:remote_img_16bit_to_8bit"]
 
 import numpy as np
 from common.remote_img_process_class import RemoteImgProcess
