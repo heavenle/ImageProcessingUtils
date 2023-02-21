@@ -10,5 +10,5 @@
 - img_16bit_to_8bit.py: 16位图像转8位图像。
 - run_img_16bit_to_8bit.sh: linux下自动处理所有tif图像。
 - slide_crop.py: 自动裁图代码。
-
+- SegmentationComputerIndex.py: 计算语义分割中的参考指标, [iou, miou, acc]。
 
