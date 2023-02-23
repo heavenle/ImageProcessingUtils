@@ -14,7 +14,7 @@
     - create_pie_dataset.py:本脚本是随机选取验证集合，并生成数据集。
 - computer_index文件夹
     - \__init\__.py: 文件简介。
-    - SegmentationComputerIndex.py: 计算语义分割中的参考指标, [iou, miou, acc]。
+    - segmentation_computer_index.py: 计算语义分割中的参考指标, [iou, miou, acc]。
     - detect_computer_index.py: 计算目标检测中的参考指标, [tp, fp, p, r, f1, ap, ap_class]
     - detect_computer_index_longitude_and_latitude.py: 通过经纬度坐标来计算目标检测中的指标【p, r, f1】。
 - CSDN文件夹 
@@ -23,8 +23,6 @@
  
 - img_16bit_to_8bit.py: 16位图像转8位图像。
 - run_img_16bit_to_8bit.sh: linux下自动处理所有tif图像。
-- SegmentationComputerIndex.py: 计算语义分割中的参考指标, [iou, miou, acc]。
-- detect_computer_index.py: 计算目标检测中的参考指标, [tp, fp, p, r, f1, ap, ap_class]
 - create_gif.py: 生成gif图。
 - gray2pseudo_color.py: 生成伪彩图。
 
