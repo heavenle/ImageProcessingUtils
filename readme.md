@@ -11,4 +11,5 @@
 - run_img_16bit_to_8bit.sh: linux下自动处理所有tif图像。
 - slide_crop.py: 自动裁图代码。
 - SegmentationComputerIndex.py: 计算语义分割中的参考指标, [iou, miou, acc]。
+- detect_computer_index.py: 计算目标检测中的参考指标, [tp, fp, p, r, f1, ap, ap_class]
 
