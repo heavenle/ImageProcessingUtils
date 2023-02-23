@@ -1,16 +1,18 @@
 # -*- coding: utf-8 -*-
-__data__ = "2023.2.8"
+__data__ = "2023.2.23"
 __author__ = "玉堃"
 __description__ = "遥感图像处理公共函数汇总"
 __function__ = ["注释: class:def[类别:函数]",
                 "RemoteImgProcess:read_img", "RemoteImgProcess:write_img", "RemoteImgProcess:tif2shp",
-                "RemoteImgProcess:shp2geojson", "RemoteImgProcess:array2tif", "RemoteImgProcess:calculate_mean_std"]
+                "RemoteImgProcess:shp2geojson", "RemoteImgProcess:array2tif", "RemoteImgProcess:calculate_mean_std",
+                "RemoteImgProcess:geojson2shp"]
 
 import os
 from osgeo import gdal, osr, ogr
 import numpy as np
 import skimage.io as io
 import cv2
+import json
 
 
 class RemoteImgProcess:
@@ -183,6 +185,119 @@ class RemoteImgProcess:
         outRaster.SetProjection(outRasterSRS.ExportToWkt())
         outband.FlushCache()
         print("convert to tif Success........")
+
+    @staticmethod
+    def geoJson2shp(json_path, shp_path):
+        """
+        geojson 转化为 shp
+
+        :param json_path: json路径
+        :param shp_path: shp路径
+        :return:
+        """
+
+        if os.path.exists(json_path):
+            with open(json_path, 'r', encoding='utf-8') as f:
+                params = json.load(f)
+
+        gdal.SetConfigOption("GDAL_FILENAME_IS_UTF8", "YES")
+        gdal.SetConfigOption("SHAPE_ENCODING", "GBK")
+        driver = ogr.GetDriverByName("ESRI Shapefile")
+        # Polygon
+        polygon_data_source = driver.CreateDataSource(shp_path)
+        if polygon_data_source == None:
+            print("创建文件【%s】失败！", shp_path)
+            return
+        papszLCO = []
+        polygon_layer = polygon_data_source.CreateLayer("testPolygon", None, ogr.wkbPolygon, papszLCO)
+        if polygon_layer == None:
+            print("图层创建失败！\n")
+            return
+
+        # 先创建一个叫FieldID的整型属性
+        oFieldID = ogr.FieldDefn("FieldID", ogr.OFTInteger)
+        polygon_layer.CreateField(oFieldID, 1)
+
+        # 再创建一个叫FeatureName的字符型属性，字符长度为50
+        oFieldName = ogr.FieldDefn("FieldName", ogr.OFTString)
+        oFieldName.SetWidth(100)
+        polygon_layer.CreateField(oFieldName, 1)
+
+        # 再创建一个叫FeatureName的字符型属性，score
+        oFieldscore = ogr.FieldDefn("score", ogr.OFTReal)
+        polygon_layer.CreateField(oFieldscore, 1)
+
+        # 再创建一个叫FeatureName的字符型属性，字符长度为50
+        oFieldColor = ogr.FieldDefn("Color", ogr.OFTString)
+        oFieldColor.SetWidth(100)
+        polygon_layer.CreateField(oFieldColor, 1)
+
+        for i in params['features']:
+            proper = i.get("properties")
+            FieldID = proper.get('FieldID')
+            FieldName = proper.get('FieldName')
+            score = float(proper.get('score'))
+            Color = proper.get('Color')
+
+            geo = i.get("geometry")
+            geo_type = geo.get('type')
+
+            if geo_type == 'Polygon':
+                polygonCOOR = geo.get('coordinates')
+                isinsect = True
+                if isinsect:
+                    ring = ogr.Geometry(ogr.wkbLinearRing)
+                    for coord in polygonCOOR:
+                        for xy in coord:
+                            ring.AddPoint(xy[0], xy[1])
+
+                            poly = ogr.Geometry(ogr.wkbPolygon)
+                            poly.AddGeometry(ring)
+                    poly = poly.ExportToWkt()
+
+                    if poly:
+                        feature = ogr.Feature(polygon_layer.GetLayerDefn())
+                        feature.SetField('FieldID', FieldID)
+                        feature.SetField('FieldName', FieldName)
+                        feature.SetField('score', score)
+                        feature.SetField('Color', Color)
+                        area = ogr.CreateGeometryFromWkt(poly)
+                        feature.SetGeometry(area)
+                        polygon_layer.CreateFeature(feature)
+                        feature = None
+            elif geo_type == "MultiPolygon":
+                # 简单操作
+                feature = ogr.Feature(polygon_layer.GetLayerDefn())
+                feature.SetField('polygon', "test")
+
+                gjson = ogr.CreateGeometryFromJson(str(geo))
+                if gjson:
+                    feature.SetGeometry(gjson)
+                    polygon_layer.CreateFeature(feature)
+                    feature = None
+            elif geo_type == "Point":
+                feature = ogr.Feature(point_layer.GetLayerDefn())
+                feature.SetField('point', "point")
+
+                point_geo = ogr.CreateGeometryFromJson(str(geo))
+                if point_geo:
+                    feature.SetGeometry(point_geo)
+                    point_layer.CreateFeature(feature)
+                    feature = None
+
+                pass
+            elif geo_type == "LineString":
+                feature = ogr.Feature(polyline_layer.GetLayerDefn())
+                feature.SetField('polyline', "point")
+
+                line_geo = ogr.CreateGeometryFromJson(str(geo))
+                if line_geo:
+                    feature.SetGeometry(line_geo)
+                    polyline_layer.CreateFeature(feature)
+                    feature = None
+                pass
+            else:
+                print('Could not discern geometry')
 
     @staticmethod
     def calculate_mean_std(images_list: list):

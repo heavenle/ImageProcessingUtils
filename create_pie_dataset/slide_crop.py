@@ -154,9 +154,9 @@ if __name__ == "__main__":
     # 初始化参数
     slide_window_size = 512
     overlap_rate = 0.25
-    label_root_path = r'F:\database\Segmentation_XiAn_SingleClass_VOC_Build_GF_build\zhengzhou\labels'
-    img_root_path = r'F:\database\Segmentation_XiAn_SingleClass_VOC_Build_GF_build\zhengzhou\images'
-    save_path = r'F:\database\Segmentation_XiAn_SingleClass_VOC_Build_GF_build\zhengzhou\build_data_' + str(
+    label_root_path = r'F:\database\Segmentation_XiAn_SingleClass_VOC_Build_GF_build\liaoning\labels'
+    img_root_path = r'F:\database\Segmentation_XiAn_SingleClass_VOC_Build_GF_build\liaoning\images'
+    save_path = r'F:\database\Segmentation_XiAn_SingleClass_VOC_Build_GF_build\liaoning\build_data_' + str(
         slide_window_size) + '_' + str(overlap_rate).split('.')[1]
 
     slide_crop(glob.glob(os.path.join(img_root_path, '*.tif')),

@@ -30,7 +30,7 @@ root files:
         |               |------4.tif
         |               |------5.tif
         |               |------6.tif
-        |------dataset.json
+        |------create_pie_dataset.json
         
 voc segmentation data format 
 VOCdevkit/VOC2012:
@@ -122,7 +122,7 @@ def write_coco_json(pie_root_path, label_list):
     coco_annotations_dict = {"segmentation": [], "area": 0, "iscrowd": 0, "image_id": 0, "bbox": [],
                              "category_id": 0, "id": 0}
     # 设置categories字典
-    with open(os.path.join(pie_root_path, 'dataset.json'), 'r', encoding='utf-8') as F:
+    with open(os.path.join(pie_root_path, 'create_pie_dataset.json'), 'r', encoding='utf-8') as F:
         data_set_json = json.load(F)
 
     for l_index in data_set_json['labels']:
@@ -243,7 +243,7 @@ def voc_to_pie(pie_root_path, voc_root_path, dataset_json=None):
 
     :param pie_root_path: pie数据路径
     :param voc_root_path: voc数据路径
-    :param dataset_json: dataset.json中的内容[格式为字符串或者字典]
+    :param dataset_json: create_pie_dataset.json中的内容[格式为字符串或者字典]
     :return:
     """
     # 生成pie对应文件夹。
@@ -298,11 +298,11 @@ def voc_to_pie(pie_root_path, voc_root_path, dataset_json=None):
                                      img_list[img_index].replace('\n', '') + '.tif'))
     if dataset_json:
         if isinstance(dataset_json, dict):
-            with open(os.path.join(pie_root_path, 'dataset.json'), 'w', encoding='utf-8') as F:
+            with open(os.path.join(pie_root_path, 'create_pie_dataset.json'), 'w', encoding='utf-8') as F:
                 json.dump(dataset_json, F, indent=4)
         elif isinstance(dataset_json, str):
             dataset_json = json.dumps(dataset_json)
-            with open(os.path.join(pie_root_path, 'dataset.json'), 'w', encoding='utf-8') as F:
+            with open(os.path.join(pie_root_path, 'create_pie_dataset.json'), 'w', encoding='utf-8') as F:
                 json.dump(dataset_json, F, indent=4)
 
 
@@ -365,7 +365,7 @@ def coco_to_pie(pie_root_path, coco_root_path, dataset_json=None):
     
     :param pie_root_path: pie数据的根目录
     :param coco_root_path: coco数据的根目录
-    :param dataset_json: dataset.json中的内容[格式为字符串或者字典]
+    :param dataset_json: create_pie_dataset.json中的内容[格式为字符串或者字典]
     :return:
     """
     # 生成pie对应文件夹。
@@ -435,11 +435,11 @@ def coco_to_pie(pie_root_path, coco_root_path, dataset_json=None):
 
     if dataset_json:
         if isinstance(dataset_json, dict):
-            with open(os.path.join(pie_root_path, 'dataset.json'), 'w', encoding='utf-8') as F:
+            with open(os.path.join(pie_root_path, 'create_pie_dataset.json'), 'w', encoding='utf-8') as F:
                 json.dump(dataset_json, F, indent=4)
         elif isinstance(dataset_json, str):
             dataset_json = json.dumps(dataset_json)
-            with open(os.path.join(pie_root_path, 'dataset.json'), 'w', encoding='utf-8') as F:
+            with open(os.path.join(pie_root_path, 'create_pie_dataset.json'), 'w', encoding='utf-8') as F:
                 json.dump(dataset_json, F, indent=4)
 
 
@@ -452,29 +452,29 @@ def voc_to_coco():
 
 
 if __name__ == "__main__":
-    pie_path = r"F:\database\Segmentation_XiAn_SingleClass_VOC_Build_GuoWangTong\voc_512\pie"
-    voc_path = r"F:\database\Segmentation_XiAn_SingleClass_VOC_Build_GuoWangTong\voc_512\voc"
+    pie_path = r"F:\database\Segmentation_XiAn_SingleClass_VOC_Build_GF_build\pie"
+    voc_path = r"F:\database\Segmentation_XiAn_SingleClass_VOC_Build_GF_build\voc"
     coco_path = r"F:\database\oiltank\coco"
-    data_set_json = {'dir_index': {'train_valid_rate': '9:1'},
-                     'sample': {'width': 1024,
-                                'height': 1024,
-                                'bands': 3,
-                                'resolution': 1,
-                                'datatype': 'Byte'},
-                     'labels': [{'//': '背景默认如下，必填；其它标签自行添加。在标签影像为单波段时：class_value填像素值，'
-                                       '否则采用递增方式进行；class_color填原图对应标注物的rgb值。',
-                                 'class_name': 'background',
-                                 'class_title': '背景',
-                                 'class_color': 'rgb(0, 0, 0)',
-                                 'class_value': 0},
-                                {'class_name': 'Cultivated_land',
-                                 'class_title': '耕地',
-                                 'class_color': 'rgb(255, 255, 255)',
-                                 'class_value': 255}
-                                ]
-                     }
+    # data_set_json = {'dir_index': {'train_valid_rate': '9:1'},
+    #                  'sample': {'width': 1024,
+    #                             'height': 1024,
+    #                             'bands': 3,
+    #                             'resolution': 1,
+    #                             'datatype': 'Byte'},
+    #                  'labels': [{'//': '背景默认如下，必填；其它标签自行添加。在标签影像为单波段时：class_value填像素值，'
+    #                                    '否则采用递增方式进行；class_color填原图对应标注物的rgb值。',
+    #                              'class_name': 'background',
+    #                              'class_title': '背景',
+    #                              'class_color': 'rgb(0, 0, 0)',
+    #                              'class_value': 0},
+    #                             {'class_name': 'Cultivated_land',
+    #                              'class_title': '耕地',
+    #                              'class_color': 'rgb(255, 255, 255)',
+    #                              'class_value': 255}
+    #                             ]
+    #                  }
 
-    # pie_to_voc(pie_path, voc_path)
-    voc_to_pie(pie_path, voc_path, dataset_json=None)
+    pie_to_voc(pie_path, voc_path)
+    # voc_to_pie(pie_path, voc_path, dataset_json=None)
     # coco_to_pie(r"F:\database\convert_test_data\coco_2_pie", coco_path, dataset_json=None)
     # pie_to_coco(pie_path, coco_path)

@@ -1,0 +1,1 @@
+__file__ = "csdn_detection_index_sum.py:  CSDN中《Detection：目标检测常用评价指标的学习总结（IoU、TP、FP、TN、FN、Precision、Recall、F1-score、P-R曲线、AP、mAP、 ROC曲线、TPR、FPR和AUC）》文章代码。"

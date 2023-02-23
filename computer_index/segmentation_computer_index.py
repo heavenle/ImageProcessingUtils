@@ -198,15 +198,36 @@ def read(path):
 
 if __name__ == "__main__":
     pre_path = [
-        r"F:\HorNet-master\semantic_segmentation\output_GuoWangTong512__20221031\doufan2L_pred.tif",
-    ]
+        r"G:\国网通模型验收\铁路模型\pred\2_tielu1_pred_1.tif",
+        r"G:\国网通模型验收\铁路模型\pred\1_tielu2_pred_1.tif",
+        r"G:\国网通模型验收\大棚模型\pred\2_dapeng1_pred.tif",
+        r"G:\国网通模型验收\大棚模型\pred\1_dapeng2_pred.tif",
+        r"G:\国网通模型验收\建筑物模型\pred\1_shicha2_1_pred.tif",
+        r"G:\国网通模型验收\建筑物模型\pred\2_doufan2L_pred.tif",
+        r"G:\国网通模型验收\道路模型\pred\1_BJ4_pred.tif",
+        r"G:\国网通模型验收\道路模型\pred\2_BJ11_pred.tif",
 
+    ]
     label_path = [
-        r"F:\database\Segmentation_XiAn_SingleClass_VOC_Build_GuoWangTong\build\clip\clip_tif\doufan2L.tif",
+        r"G:\国网通模型验收\铁路模型\labels\tielu1_label.tif",
+        r"G:\国网通模型验收\铁路模型\labels\tielu2_label.tif",
+        r"G:\国网通模型验收\大棚模型\labels\dapeng1_label.tif",
+        r"G:\国网通模型验收\大棚模型\labels\dapeng2_label.tif",
+        r"G:\国网通模型验收\建筑物模型\labels\shicha2_1_label.tif",
+        r"G:\国网通模型验收\建筑物模型\labels\doufan2L_label.tif",
+        r"G:\国网通模型验收\道路模型\labels\BJ4_label.tif",
+        r"G:\国网通模型验收\道路模型\labels\BJ11_label.tif",
     ]
 
     for pathIndex in range(len(pre_path)):
         print("==={}===".format(os.path.basename(pre_path[pathIndex])))
         pre = read(pre_path[pathIndex])
         label = read(label_path[pathIndex])
+
+        if 255 in np.unique(pre):
+            pre = (pre / 255).astype(np.uint8)
+
+        if 255 in np.unique(label):
+            label = (label / 255).astype(np.uint8)
+
         eval_miou(pre, label, 2)
