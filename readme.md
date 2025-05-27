@@ -1,7 +1,8 @@
 # 该项目是常用的图像处理代码汇总
 ## 代码汇总：
-- common文件夹
+- data_process文件夹
     - remote_img_process_class.py: 遥感图像处理代码，包含图像的读写，转化geojson、shp和tif以及均值方差的计算等。
+    - chem_data_process_class.py： 化学相关数据处理代码，包含读写，原子映射，模板获取，相似度匹配等。
 - covert文件夹
     - \__init\__.py: 文件简介。
     - segmentation_format_covert.py: 格式转化代码，实现pie转voc、voc转pie、pie转coco、coco转pie。
@@ -21,10 +22,16 @@
 - written_examination文件夹 
     - \__init\__.py: 文件简介。
     - written_examination_1.py: 笔试题1。
-
+- ThirdPkg文件夹  第三方库
+    - template_utils文件夹   化学相关第三方代码。
+        - amol_utils_rdchiral.py
+        - coley_utils_rdchiral.py 
 - img_16bit_to_8bit.py: 16位图像转8位图像。
 - run_img_16bit_to_8bit.sh: linux下自动处理所有tif图像。
 - create_gif.py: 生成gif图。
 - gray2pseudo_color.py: 生成伪彩图。
 - show_mask.py: 实现单波段图像的RGB图像转换。
 - pie_to_yolov5.py: 实现pie格式转化位yolov5格式。
+- MySQL_commond.py: mysql相关python代码指令。
+- pdf2image.py：将pdf转化为图像。
+- string_regularization.py：通过正则化匹配处理字符串示例。
