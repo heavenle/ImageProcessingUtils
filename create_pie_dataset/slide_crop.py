@@ -9,7 +9,7 @@ import numpy as np
 import os
 import glob
 import skimage.io as io
-from common.remote_img_process_class import RemoteImgProcess
+from data_process.remote_img_process_class import RemoteImgProcess
 
 
 def slide_crop(

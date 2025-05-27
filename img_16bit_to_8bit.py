@@ -6,7 +6,7 @@ __function__ = ["注释: class:def[类别:函数]",
                 "-:remote_img_16bit_to_8bit"]
 
 import numpy as np
-from common.remote_img_process_class import RemoteImgProcess
+from data_process.remote_img_process_class import RemoteImgProcess
 import os.path as osp
 import logging
 import argparse
